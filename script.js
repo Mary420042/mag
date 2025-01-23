@@ -1,9 +1,11 @@
 // Carrega os contemplados do Local Storage ou usa uma lista inicial vazia
 let contemplados = JSON.parse(localStorage.getItem("contemplados")) || [];
 
-// Função para carregar os contemplados na tabela
+// Função para carregar os contemplados na tabela da página inicial
 function carregarContemplados() {
     const tbody = document.getElementById("contemplados");
+    if (!tbody) return; // Garante que só funciona no index.html
+
     tbody.innerHTML = ""; // Limpa a tabela
 
     contemplados.forEach((item, index) => {
@@ -30,12 +32,20 @@ function mostrarNumero(index) {
 }
 
 // Adicionar sorteado na página criar.html
-if (document.getElementById("form")) {
-    document.getElementById("form").addEventListener("submit", function (event) {
+function configurarFormulario() {
+    const form = document.getElementById("form");
+    if (!form) return; // Garante que só funciona no criar.html
+
+    form.addEventListener("submit", function (event) {
         event.preventDefault();
 
-        const nome = document.getElementById("nome").value;
-        const celular = document.getElementById("celular").value;
+        const nome = document.getElementById("nome").value.trim();
+        const celular = document.getElementById("celular").value.trim();
+
+        if (!nome || !celular || celular.length !== 11) {
+            alert("Por favor, insira um nome e um celular válido (11 dígitos).");
+            return;
+        }
 
         // Adiciona o sorteado na lista
         contemplados.push({ nome, celular });
@@ -50,7 +60,8 @@ if (document.getElementById("form")) {
     });
 }
 
-// Carregar os dados na página inicial
-if (document.getElementById("contemplados")) {
+// Inicializa funções
+document.addEventListener("DOMContentLoaded", () => {
     carregarContemplados();
-}
+    configurarFormulario();
+});
