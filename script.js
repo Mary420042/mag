@@ -1,12 +1,19 @@
-// Carrega os contemplados do Local Storage ou usa uma lista inicial vazia
+// Inicializa a lista de contemplados no Local Storage ou usa uma lista vazia
 let contemplados = JSON.parse(localStorage.getItem("contemplados")) || [];
 
-// Função para carregar os contemplados na tabela da página inicial
+// Função para carregar os contemplados no index.html
 function carregarContemplados() {
     const tbody = document.getElementById("contemplados");
-    if (!tbody) return; // Garante que só funciona no index.html
 
-    tbody.innerHTML = ""; // Limpa a tabela
+    if (!tbody) return; // Não executa nada se a tabela não existir
+
+    tbody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
+
+    if (contemplados.length === 0) {
+        // Exibe mensagem se não houver dados
+        tbody.innerHTML = "<tr><td colspan='2'>Nenhum contemplado encontrado.</td></tr>";
+        return;
+    }
 
     contemplados.forEach((item, index) => {
         const row = document.createElement("tr");
@@ -31,10 +38,11 @@ function mostrarNumero(index) {
     alert(`Número completo: ${contemplados[index].celular}`);
 }
 
-// Adicionar sorteado na página criar.html
+// Configura o formulário em criar.html
 function configurarFormulario() {
     const form = document.getElementById("form");
-    if (!form) return; // Garante que só funciona no criar.html
+
+    if (!form) return; // Não executa nada se o formulário não existir
 
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -60,7 +68,7 @@ function configurarFormulario() {
     });
 }
 
-// Inicializa funções
+// Chama as funções corretas dependendo da página
 document.addEventListener("DOMContentLoaded", () => {
     carregarContemplados();
     configurarFormulario();
