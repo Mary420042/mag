@@ -10,7 +10,7 @@ function carregarContemplados() {
     tbody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     if (contemplados.length === 0) {
-        tbody.innerHTML = "<tr><td colspan='2'>Nenhum contemplado encontrado.</td></tr>";
+        tbody.innerHTML = "<tr><td colspan='3'>Nenhum contemplado encontrado.</td></tr>";
         return;
     }
 
@@ -26,8 +26,14 @@ function carregarContemplados() {
             <button onclick="mostrarNumero(${index})" class="reveal-button">Mostrar</button>
         `;
 
+        const excluirCell = document.createElement("td");
+        excluirCell.innerHTML = `
+            <button onclick="excluirContemplado(${index})" class="delete-button">Excluir</button>
+        `;
+
         row.appendChild(nomeCell);
         row.appendChild(celularCell);
+        row.appendChild(excluirCell);
         tbody.appendChild(row);
     });
 }
@@ -35,6 +41,22 @@ function carregarContemplados() {
 // Função para revelar o número completo
 function mostrarNumero(index) {
     alert(`Número completo: ${contemplados[index].celular}`);
+}
+
+// Função para excluir um contemplado
+function excluirContemplado(index) {
+    if (confirm("Tem certeza de que deseja excluir este contemplado?")) {
+        // Remove o item da lista
+        contemplados.splice(index, 1);
+
+        // Atualiza o Local Storage
+        localStorage.setItem("contemplados", JSON.stringify(contemplados));
+
+        // Recarrega a tabela
+        carregarContemplados();
+
+        alert("Contemplado excluído com sucesso!");
+    }
 }
 
 // Configura o formulário em criar.html
