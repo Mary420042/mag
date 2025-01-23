@@ -1,13 +1,10 @@
-// Lista inicial de contemplados (simulação)
-const contemplados = [
-    { nome: "João Silva", celular: "11987654321" },
-    { nome: "Maria Oliveira", celular: "11912345678" },
-];
+// Carrega os contemplados do Local Storage ou usa uma lista inicial vazia
+let contemplados = JSON.parse(localStorage.getItem("contemplados")) || [];
 
 // Função para carregar os contemplados na tabela
 function carregarContemplados() {
     const tbody = document.getElementById("contemplados");
-    tbody.innerHTML = "";
+    tbody.innerHTML = ""; // Limpa a tabela
 
     contemplados.forEach((item, index) => {
         const row = document.createElement("tr");
@@ -40,10 +37,16 @@ if (document.getElementById("form")) {
         const nome = document.getElementById("nome").value;
         const celular = document.getElementById("celular").value;
 
+        // Adiciona o sorteado na lista
         contemplados.push({ nome, celular });
+
+        // Salva no Local Storage
+        localStorage.setItem("contemplados", JSON.stringify(contemplados));
+
         alert("Sorteado adicionado com sucesso!");
 
-        window.location.href = "index.html"; // Redireciona para a página inicial
+        // Redireciona para a página inicial
+        window.location.href = "index.html";
     });
 }
 
