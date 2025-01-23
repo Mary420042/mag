@@ -5,12 +5,11 @@ let contemplados = JSON.parse(localStorage.getItem("contemplados")) || [];
 function carregarContemplados() {
     const tbody = document.getElementById("contemplados");
 
-    if (!tbody) return; // Não executa nada se a tabela não existir
+    if (!tbody) return; // Se a tabela não existir, não faz nada
 
     tbody.innerHTML = ""; // Limpa a tabela antes de carregar os dados
 
     if (contemplados.length === 0) {
-        // Exibe mensagem se não houver dados
         tbody.innerHTML = "<tr><td colspan='2'>Nenhum contemplado encontrado.</td></tr>";
         return;
     }
@@ -42,7 +41,7 @@ function mostrarNumero(index) {
 function configurarFormulario() {
     const form = document.getElementById("form");
 
-    if (!form) return; // Não executa nada se o formulário não existir
+    if (!form) return; // Se o formulário não existir, não faz nada
 
     form.addEventListener("submit", function (event) {
         event.preventDefault();
@@ -68,8 +67,8 @@ function configurarFormulario() {
     });
 }
 
-// Chama as funções corretas dependendo da página
+// Inicializa funções
 document.addEventListener("DOMContentLoaded", () => {
-    carregarContemplados();
-    configurarFormulario();
+    carregarContemplados(); // Carrega contemplados no index.html
+    configurarFormulario(); // Configura formulário no criar.html
 });
